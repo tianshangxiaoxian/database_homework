@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>比赛管理页</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h2>比赛管理</h2>
+
+    <form action="/add_competition" method="post" class="mb-4">
+        <div class="row g-2">
+            <div class="col"><input type="number" name="competition_ID" class="form-control" placeholder="比赛ID" required></div>
+            <div class="col"><input type="text" name="place" class="form-control" placeholder="比赛地点" required></div>
+            <div class="col"><input type="text" name="winner" class="form-control" placeholder="获胜俱乐部" required></div>
+            <div class="col"><input type="text" name="time" class="form-control" placeholder="比赛时间" required></div>
+            <div class="col"><button type="submit" class="btn btn-primary">添加</button></div>
+        </div>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>比赛ID</th>
+                <th>地点</th>
+                <th>获胜俱乐部</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in competitions %}
+            <tr>
+                <td>{{ c.competition_ID }}</td>
+                <td>{{ c.place }}</td>
+                <td>{{ c.winner }}</td>
+                <td>{{ c.time }}</td>
+            <td>
+                <a href="/edit_competition/{{ c.competition_ID }}" class="btn btn-warning btn-sm">编辑</a>
+                <a href="/delete_competition/{{ c.competition_ID }}" class="btn btn-danger btn-sm">删除</a>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- 分页控制 -->
+    <nav>
+        <ul class="pagination">
+            {% for i in range(1, total_pages + 1) %}
+                <li class="page-item {% if i == page %}active{% endif %}">
+                    <a class="page-link" href="/competition?page={{ i }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <a href="/index" class="btn btn-secondary">返回主页面</a>
+</body>
+</html>
